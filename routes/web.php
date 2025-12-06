@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::prefix('schedule')->group(function () {
+    // スケジュール一覧
+    Route::get('/index', \App\Livewire\Schedule\Index::class)->name('schedule.index');
+});
+
 require __DIR__.'/auth.php';
 
 
