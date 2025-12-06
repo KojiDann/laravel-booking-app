@@ -4,13 +4,10 @@ namespace App\Livewire\Schedule;
 
 use App\Models\Schedule;
 use App\Models\User;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
-    //アラート表示用
-    use LivewireAlert;
 
     public Schedule $schedule;
 

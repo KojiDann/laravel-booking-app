@@ -31,74 +31,56 @@
             読み込み中...
         </div>
         <div id="calendar-container" wire:ignore>
-            <div id="calendar"></div>
+            <div id="calendar" class="fc-container"></div>
         </div>
     </x-adminlte-card>
 
 
-    @push('js')
-        <script>
-            //ドロップダウンメニュー内でクリックされてもメニューを閉じないように制御
-            $('.dropdown-menu').click(function (e) {
-                e.stopPropagation();
-            });
-            document.addEventListener('livewire:load', function () {
-                var calendarEl = document.getElementById('calendar');
+@push('js')
+    <script>
+        // ドロップダウン内クリックで閉じない
+        $('.dropdown-menu').click(function (e) {
+            e.stopPropagation();
+        });
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    //プレミアム機能を使うためのライセンスキー(これはトライアル)
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                const calendarEl = document.getElementById('calendar');
+
+                if (!calendarEl) {
+                    console.error('calendar element not found');
+                    return;
+                }
+
+                const calendar = new FullCalendar.Calendar(calendarEl, {
                     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-                    //表示テーマ
                     themeSystem: 'bootstrap',
-                    //カレンダーそのものの高さ
                     height: 700,
-                    //各ボタンの表示テキスト変更
-                    buttonText: {
-                        resourceTimeGridDay: '日(グリッド)',
-                        resourceTimelineDay: '日',
-                    },
-                    //ツールバー
+
                     headerToolbar: {
                         left: "prev,next today",
                         center: "title",
                         right: "dayGridMonth,resourceTimelineDay,resourceTimeGridDay",
                     },
-                    //初期表示
+
                     initialView: 'dayGridMonth',
-                    //日本語化
                     locale: 'ja',
-                    //リソースヘッダー名(日付モードの際に見える)
-                    resourceAreaHeaderContent: "ユーザー",
-                    //ユーザーが別の日付に移動したりビューを変更したりしたときに、リソースを再取得して再レンダリングするかどうか。
-                    refetchResourcesOnNavigate: true,
-                    //全日表示モードで時間表示するか
                     displayEventTime: false,
-                    //日付クリックで日付モードにするかどうか
                     navLinks: true,
-                    //月表示の時に見える「日」が邪魔なので消す
+
                     dayCellContent: function (e) {
                         e.dayNumberText = e.dayNumberText.replace('日', '');
                     },
-                    //リソース取得(月が切り替わる度に更新)
-                    resources: function (fetchInfo, successCallback, failureCallback) {
-                        @this.
-                        getResources().then((response) => {
-                            successCallback(response);
-                        })
-                    },
-                    //イベント取得(月が切り替わる度に更新)
-                    events: function (info, successCallback) {
-                        @this.
-                        getEvents(info.start, info.end).then((response) => {
-                            successCallback(response);
-                        })
-                    },
+
+                    events: @json($events),
                 });
+
                 calendar.render();
-                window.addEventListener('refreshCalendar', event => {
-                    calendar.refetchResources();
-                    calendar.refetchEvents();
-                });
-            });
-        </script>
-    @endpush
+                window.__calendar = calendar;
+
+                console.log('FullCalendar rendered');
+            }, 0);
+        });
+
+    </script>
+@endpush

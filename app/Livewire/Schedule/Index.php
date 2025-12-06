@@ -9,49 +9,51 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    //選択中のユーザーid群
+    // 選択中のユーザーID
     public array $selectedUserIds = [];
 
-    //カレンダー更新用イベントリスナー
+    // calendar events (used by Blade @json)
+    public array $events = [];
+
     protected $listeners = ['refreshCalendar'];
 
     public function mount(): void
     {
-        $this->selectedUserIds = User::all()->pluck('id')->toArray();
+        // 初期状態では全ユーザー選択
+        $this->selectedUserIds = User::pluck('id')->toArray();
+
+        // 初期イベント取得
+        $this->loadEvents();
     }
 
-    //選択中のユーザーid群に更新があった時のライフサイクルイベント
     public function updatedSelectedUserIds(): void
     {
+        $this->loadEvents();
         $this->dispatchBrowserEvent('refreshCalendar');
+    }
+
+    private function loadEvents(): void
+    {
+        $this->events = Schedule::query()
+            ->whereIn('user_id', $this->selectedUserIds)
+            ->get()
+            ->map(fn ($schedule) => [
+                'title' => $schedule->title,
+                'start' => $schedule->day . 'T' . $schedule->start,
+                'end'   => $schedule->day . 'T' . $schedule->end,
+            ])
+            ->toArray();
     }
 
     public function render()
     {
-        $users = User::all();
-        return view('livewire.schedule.index', compact('users'))
-            ->extends('adminlte::page')
-            ->section('content');
+        return view('livewire.schedule.index', [
+            'users'  => User::all(),
+            'events' => $this->events,
+        ])->extends('adminlte::page')->section('content');
     }
 
-    //FullCalendarレンダリング時に取得するResources
-    public function getResources(): array
-    {
-        return User::query()->findMany($this->selectedUserIds)
-            ->map(fn($user) => $this->convertToResourceByUserForFullcalendar($user))
-            ->toArray();
-    }
-
-    //FullCalendarで使えるresourceの配列に整形
-    private function convertToResourceByUserForFullcalendar(User $user): array
-    {
-        return [
-            'id' => $user->id,
-            'title' => $user->name,
-        ];
-    }
-
-    //FullCalendarレンダリング時に取得するEvents
+    // ✅ 以下は将来 resource view / timeline 用（今はOK）
     public function getEvents($start, $end): array
     {
         $range = [
@@ -59,30 +61,18 @@ class Index extends Component
             CarbonImmutable::create($end)->format('Y-m-d'),
         ];
 
-        return Schedule::query()->whereIn('user_id', $this->selectedUserIds)
+        return Schedule::query()
+            ->whereIn('user_id', $this->selectedUserIds)
             ->whereBetween('day', $range)
             ->get()
-            ->map(fn($schedule) => $this->convertToEventByScheduleForFullcalendar($schedule))
+            ->map(fn ($schedule) => [
+                'title' => $schedule->title,
+                'start' => CarbonImmutable::parse($schedule->day.' '.$schedule->start)->format('c'),
+                'end'   => CarbonImmutable::parse($schedule->day.' '.$schedule->end)->format('c'),
+            ])
             ->toArray();
     }
 
-    //FullCalendarで使えるeventの配列に整形
-    private function convertToEventByScheduleForFullcalendar(Schedule $schedule): array
-    {
-        $startDateTime = new CarbonImmutable($schedule->day . ' ' . $schedule->start);
-        $endDateTime = new CarbonImmutable($schedule->day . ' ' . $schedule->end);
-        return [
-            'title' => $schedule->title,
-            'start' => $startDateTime->format('c'),
-            'end' => $endDateTime->format('c'),
-            'resourceId' => $schedule->user_id,
-            'extendedProps' => [
-                'schedule_id' => $schedule->id
-            ]
-        ];
-    }
-
-    //カレンダー更新用イベント
     public function refreshCalendar(): void
     {
         $this->dispatchBrowserEvent('refreshCalendar');
