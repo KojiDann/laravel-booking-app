@@ -23,7 +23,7 @@
 
    <main>
         <h1>予約</h1>
-        <form action="{{ route('schedules.store') }}" method="POST">
+        <form action="{{ route('shcedules.store') }}" method="POST">
             @csrf
             <diV>
                 <label for="title">タイトル</label>
@@ -31,7 +31,7 @@
             </diV>
             <div>
                 <label for="room_name">会議室選択</label>
-                <select>
+                <select name="room_name">
                     <option>会議室A</option>
                     <option>会議室B</option>
                     <option>会議室C</option>
@@ -39,12 +39,16 @@
                 </select>
             </div>
             <div>
+                <label for="day">日付</label>
+                <input type="date" value="2026-01-01" name="day">
+            </div>
+            <div>
                 <label for="start">開始時間</label>
-                <input type="time">
+                <input type="time" name="start">
             </div>
             <div>
                 <label for="start">終了時間</label>
-                <input type="time">
+                <input type="time" name="end">
             </div>
             <div>
                 <button type="submit">予約する</button>

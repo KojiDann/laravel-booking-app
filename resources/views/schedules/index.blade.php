@@ -26,6 +26,10 @@
    <main>
        <h1>予約一覧</h1>
 
+        @if (session('flash_message'))
+        <p>{{ session('flash_message') }}</p>
+        @endif
+
        @if($schedules->isNotEmpty())
            @foreach($schedules as $schedule)
                <table>
