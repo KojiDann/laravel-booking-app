@@ -14,4 +14,9 @@
             </div>
         </div>
     </div>
+    <div>
+        <a href='/laravel-booking-app/public/rooms'>会議室</a>
+        <a href='/laravel-booking-app/public/schedules/index'>予約する</a>
+        <a href='/laravel-booking-app/public/schedules/index'>予約一覧</a>
+    </div>
 </x-app-layout>

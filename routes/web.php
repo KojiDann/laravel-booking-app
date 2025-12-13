@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/schedules/index', [ScheduleController::class, 'index'])->middleware(['auth', 'verified'])->name('shcedules.index');
+Route::get('/schedules/create', [ScheduleController::class, 'create'])->middleware(['auth', 'verified'])->name('shcedules.create');
+Route::post('/schedules/create', [ScheduleController::class, 'store'])->middleware(['auth', 'verified'])->name('shcedules.store');
 

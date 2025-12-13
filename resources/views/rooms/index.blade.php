@@ -13,16 +13,16 @@
            <th>ID</th>
            <th>会議室名</th>
            <th>価格/時</th>
-           <th>作成日時</th>
-           <th>更新日時</th>
+           <th>予約</th>
        </tr>
        @foreach($rooms as $room)
            <tr>
                <td>{{ $room->id }}</td>
                <td>{{ $room->room_name }}</td>
                <td>{{ $room->price }}</td>
-               <td>{{ $room->created_at }}</td>
-               <td>{{ $room->updated_at }}</td>
+               <td>
+                    <a href={{ route('shcedules.create')}}>予約</a>
+                </td>
            </tr>
        @endforeach
    </table>
