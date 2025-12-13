@@ -21,7 +21,7 @@
                <td>{{ $room->room_name }}</td>
                <td>{{ $room->price }}</td>
                <td>
-                    <a href={{ route('shcedules.create')}}>予約</a>
+                    <a href={{ route('schedules.create')}}>予約</a>
                 </td>
            </tr>
        @endforeach

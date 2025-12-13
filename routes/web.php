@@ -34,7 +34,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/schedules/index', [ScheduleController::class, 'index'])->middleware(['auth', 'verified'])->name('shcedules.index');
-Route::get('/schedules/create', [ScheduleController::class, 'create'])->middleware(['auth', 'verified'])->name('shcedules.create');
-Route::post('/schedules/create', [ScheduleController::class, 'store'])->middleware(['auth', 'verified'])->name('shcedules.store');
+Route::get('/schedules/index', [ScheduleController::class, 'index'])->middleware(['auth', 'verified'])->name('schedules.index');
+Route::get('/schedules/create', [ScheduleController::class, 'create'])->middleware(['auth', 'verified'])->name('schedules.create');
+Route::post('/schedules/create', [ScheduleController::class, 'store'])->middleware(['auth', 'verified'])->name('schedules.store');
+Route::get('/schedules/{id}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'verified'])->name('schedules.edit');
+Route::patch('/schedules/{id}', [ScheduleController::class, 'update'])->middleware(['auth', 'verified'])->name('schedules.update');
+Route::delete('/schedules/{id}', [ScheduleController::class, 'cancel'])->middleware(['auth', 'verified'])->name('schedules.cancel');
 

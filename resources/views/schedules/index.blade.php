@@ -27,11 +27,14 @@
        <h1>予約一覧</h1>
 
         @if (session('flash_message'))
-        <p>{{ session('flash_message') }}</p>
+            <p>{{ session('flash_message') }}</p>
+        @endif
+
+        @if (session('error_message'))
+            <p>{{ session('error_message') }}</p>
         @endif
 
        @if($schedules->isNotEmpty())
-           @foreach($schedules as $schedule)
                <table>
                 <tr>
                     <th>タイトル</th>
@@ -39,15 +42,31 @@
                     <th>日</th>
                     <th>開始</th>
                     <th>終了</th>
+                    <th>利用者ID</th>
+                    <th>変更</th>
+                    <th>キャンセル</th>
                 </tr>
+                @foreach($schedules as $schedule)
                 <tr>
                    <td>{{ $schedule->title }}</td>
                    <td>{{ $schedule->room_name }}</td>
                    <td>{{ $schedule->day }}</td>
                    <td>{{ $schedule->start }}</td>
                    <td>{{ $schedule->end }}</td>
+                   <td>{{ $schedule->user_id }}</td>
+                   <td>
+                        <a href="{{ route('schedules.edit', $schedule) }}">変更</a>
+                   </td>
+                   <td>
+                     <form action="{{ route('schedules.cancel', $schedule)}}" method="POST" onsubmit="return confrim('本当にキャンセルしてよろしいですか？');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">キャンセル</button>
+                     </form>
+                    </td>
+                </tr>
+                @endforeach
                </table>
-           @endforeach
        @else
            <p>予約はありません。</p>
        @endif

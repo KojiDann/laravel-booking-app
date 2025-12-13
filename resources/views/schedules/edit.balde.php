@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>予約</title>
+   <title>予約変更</title>
 </head>
 
 <body>
@@ -22,16 +22,18 @@
    </header>
 
    <main>
-        <h1>予約</h1>
-        <form action="{{ route('schedules.store') }}" method="POST">
+        <h1>予約変更</h1>
+        <form action="{{ route('schedules.update', $schedule) }}" method="POST">
             @csrf
+            @method('PATCH')
+
             <diV>
                 <label for="title">タイトル</label>
-                <input type="text" id="title" name="title">
+                <input type="text" id="title" name="title" value="{{ old('title', $schedule->title) }}">
             </diV>
             <div>
                 <label for="room_name">会議室選択</label>
-                <select name="room_name">
+                <select name="room_name" value="{{ old('room_name', $schedule->room_name) }}">
                     <option>会議室A</option>
                     <option>会議室B</option>
                     <option>会議室C</option>
@@ -40,18 +42,18 @@
             </div>
             <div>
                 <label for="day">日付</label>
-                <input type="date" value="2026-01-01" name="day">
+                <input type="date" value="{{ old('day', $schedule->day) }}" name="day">
             </div>
             <div>
                 <label for="start">開始時間</label>
-                <input type="time" name="start">
+                <input type="time" name="start"  value="{{ old('start', $schedule->start) }}">
             </div>
             <div>
                 <label for="start">終了時間</label>
-                <input type="time" name="end">
+                <input type="time" name="end"  value="{{ old('end', $schedule->end) }}">
             </div>
             <div>
-                <button type="submit">予約する</button>
+                <button type="submit">変更する</button>
             </diV>
         </form>
        <a href='/laravel-booking-app/public/rooms'>戻る</a>
