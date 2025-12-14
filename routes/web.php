@@ -47,3 +47,6 @@ Route::get('/schedules/{id}/edit', [ScheduleController::class, 'edit'])->middlew
 Route::patch('/schedules/{id}', [ScheduleController::class, 'update'])->middleware(['auth', 'verified'])->name('schedules.update');
 Route::delete('/schedules/{id}', [ScheduleController::class, 'cancel'])->middleware(['auth', 'verified'])->name('schedules.cancel');
 
+Route::get('/schedules/calendar', function () {
+    return view('schedules.calendar');
+});

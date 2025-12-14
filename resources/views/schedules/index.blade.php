@@ -48,6 +48,7 @@
        @if($schedules->isNotEmpty())
                <table>
                 <tr>
+                    <th>ID</th>
                     <th>タイトル</th>
                     <th>会議室</th>
                     <th>日</th>
@@ -59,6 +60,7 @@
                 </tr>
                 @foreach($schedules as $schedule)
                 <tr>
+                   <td>{{ $schedule->id }}</td>
                    <td>{{ $schedule->title }}</td>
                    <td>{{ $schedule->room_name }}</td>
                    <td>{{ $schedule->day }}</td>
@@ -66,7 +68,9 @@
                    <td>{{ $schedule->end }}</td>
                    <td>{{ $schedule->user_id }}</td>
                    <td>
-                        <a href="{{ route('schedules.edit', $schedule) }}">変更</a>
+                    @if($schedule->user_id == $authid)
+                        <a href="{{ route('schedules.edit', $schedule->id) }}">変更</a>
+                    @endif
                    </td>
                    <td>
                      <form action="{{ route('schedules.cancel', $schedule)}}" method="POST" onsubmit="return confrim('本当にキャンセルしてよろしいですか？');">
