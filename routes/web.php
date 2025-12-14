@@ -20,11 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/mypage', function () {
+    return view('mypage');
+})->middleware(['auth', 'verified'])->name('mypage');
+
 Route::get('/rooms', [RoomController::class, 'index'])->middleware(['auth', 'verified'])->name('rooms.index');
 
+/*
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

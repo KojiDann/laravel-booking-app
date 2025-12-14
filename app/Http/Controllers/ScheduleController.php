@@ -64,4 +64,5 @@ class ScheduleController extends Controller
         $schedule->delete();
         return redirect()->route('schedules.index')->with('flash_message', '予約をキャンセルしました。');
     }
+
 }
