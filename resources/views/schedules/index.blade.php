@@ -68,16 +68,18 @@
                    <td>{{ $schedule->end }}</td>
                    <td>{{ $schedule->user_id }}</td>
                    <td>
-                    @if($schedule->user_id == $authid)
+                    @if($schedule->user_id == Auth::id())
                         <a href="{{ route('schedules.edit', $schedule->id) }}">変更</a>
                     @endif
                    </td>
                    <td>
-                     <form action="{{ route('schedules.cancel', $schedule)}}" method="POST" onsubmit="return confrim('本当にキャンセルしてよろしいですか？');">
+                    @if($schedule->user_id == Auth::id())
+                     <form action="{{ route('schedules.cancel', $schedule)}}" method="POST" onsubmit="return confirm('本当にキャンセルしてよろしいですか？');">
                         @csrf
                         @method('DELETE')
                         <button type="submit">キャンセル</button>
                      </form>
+                     @endif
                     </td>
                 </tr>
                 @endforeach
@@ -85,6 +87,8 @@
        @else
            <p>予約はありません。</p>
        @endif
+       <a href='/laravel-booking-app/public/schedules/create'>予約する</a>
+       <a href='/laravel-booking-app/public/mypage'>戻る</a>
    </main>
 
    <footer>

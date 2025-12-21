@@ -42,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href='/laravel-booking-app/public/schedules/index'>予約一覧</a>
+                            <a href='/laravel-booking-app/public/schedules'>予約一覧</a>
                         </td>
                     </tr>
 

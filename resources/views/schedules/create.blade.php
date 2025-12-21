@@ -65,7 +65,7 @@
                 <button type="submit">予約する</button>
             </diV>
         </form>
-       <a href='/laravel-booking-app/public/rooms'>戻る</a>
+       <a href='/laravel-booking-app/public/mypage'>戻る</a>
    </main>
 
    <footer>

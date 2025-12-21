@@ -19,4 +19,8 @@ class Schedule extends Model
     public function room(){
         return $this->belongsTo(Room::class);
     }
+
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
 }

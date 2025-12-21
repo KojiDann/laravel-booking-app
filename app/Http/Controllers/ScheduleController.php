@@ -8,13 +8,13 @@ use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
     public function index(){
-        $schedules = Auth::user()->schedules()->orderBy('day', 'asc')->get();
-        $authid = Auth::id();
-        return view('schedules.index', compact('schedules','authid'));
+        $schedules = Schedule::orderBy('day', 'asc')->get();
+        return view('schedules.index', compact('schedules'));
     }
 
 
@@ -36,18 +36,11 @@ class ScheduleController extends Controller
     }
 
     public function edit(Schedule $schedule){
-        if($schedule->user_id != Auth::id()){
-            return redirect()->route('schedules.index')->with('error_message', '不正なアクセスです');
-        }
-
         return view('schedules.edit', compact('schedule'));
     }
 
     public function update(ScheduleRequest $request, Schedule $schedule){
-        if ($schedule->user_id != Auth::id()){
-            return redirect()->route('schedules.index')->with('error_message', '不正なアクセスです');
-        }
-
+        $schedule->user_id = Auth::id();
         $schedule->title = $request->input('title');
         $schedule->day = $request->input('day');
         $schedule->start = $request->input('start');
@@ -59,10 +52,6 @@ class ScheduleController extends Controller
     }
 
     public function cancel(Schedule $schedule){
-        if($schedule->user_id !== Auth::id()){
-            return redirect()->route('schedules.index')->with('error_message', '不正なアクセスです');
-        }
-
         $schedule->delete();
         return redirect()->route('schedules.index')->with('flash_message', '予約をキャンセルしました。');
     }
