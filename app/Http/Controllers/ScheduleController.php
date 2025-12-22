@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class ScheduleController extends Controller
 {
     public function index(){
-        $schedules = Schedule::orderBy('day', 'asc')->get();
+        $schedules = Auth::user()->schedules()->orderBy('day', 'asc')->get();
         return view('schedules.index', compact('schedules'));
     }
 

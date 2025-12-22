@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('schedules', function (Blueprint $table) {
-
-            $table->string('room_name')->nullable();
-            $table->foreign('room_name')->references('room_name')->on('rooms');
+        Schema::table('bookings', function (Blueprint $table){
+            $table->date('end_date')->change();
         });
     }
 
@@ -23,11 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('schedules', function (Blueprint $table) {
-
-            $table->dropForeign(['room_name']);
-
-            $table->dropColumn('room_name');
+        Schema::table('bookings', function (Blueprint $table) {
+        $table->time('end_date')->change();
     });
-}
+    }
 };

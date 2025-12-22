@@ -37,12 +37,22 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href='/laravel-booking-app/public/schedules/create'>予約する</a>
+                            <a href='/laravel-booking-app/public/schedules/create'>会議室を予約する</a>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <a href='/laravel-booking-app/public/schedules'>予約一覧</a>
+                            <a href='/laravel-booking-app/public/schedules'>会議室予約一覧</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href='/laravel-booking-app/public/bookings/create'>オープンスペースを予約する</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href='/laravel-booking-app/public/bookings'>オープンスペース予約一覧</a>
                         </td>
                     </tr>
 

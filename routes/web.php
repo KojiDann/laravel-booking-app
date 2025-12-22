@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\BookingController;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,8 @@ Route::get('/mypage', function () {
 })->middleware(['auth', 'verified'])->name('mypage');
 
 Route::get('/homepage', function () {
-    return view('homepage');
+    $overview = File::get(resource_path('content/overview.txt'));
+    return view('homepage', compact('overview'));
 })->name('homepage');
 
 
@@ -51,6 +54,15 @@ Route::post('/schedules/create', [ScheduleController::class, 'store'])->middlewa
 Route::get('/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'verified'])->name('schedules.edit');
 Route::patch('/schedules/{schedule}', [ScheduleController::class, 'update'])->middleware(['auth', 'verified'])->name('schedules.update');
 Route::delete('/schedules/{schedule}', [ScheduleController::class, 'cancel'])->middleware(['auth', 'verified'])->name('schedules.cancel');
+
+Route::get('/bookings', [BookingController::class, 'index'])->middleware(['auth', 'verified'])->name('bookings.index');
+Route::get('/bookings/create', [BookingController::class, 'create'])->middleware(['auth', 'verified'])->name('bookings.create');
+Route::post('/bookings', [BookingController::class, 'store'])->middleware(['auth', 'verified'])->name('bookings.store');
+Route::post('/bookings/oneday', [BookingController::class, 'onedayStore'])->middleware(['auth', 'verified'])->name('bookings.onedayStore');
+Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])->middleware(['auth', 'verified'])->name('bookings.edit');
+Route::patch('/bookings/{booking}', [BookingController::class, 'update'])->middleware(['auth', 'verified'])->name('bookings.update');
+Route::delete('/bookings/{booking}', [BookingController::class, 'cancel'])->middleware(['auth', 'verified'])->name('bookings.cancel');
+
 
 Route::get('/schedules/calendar', function () {
     return view('schedules.calendar');

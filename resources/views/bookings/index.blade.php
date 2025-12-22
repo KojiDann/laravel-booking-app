@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>予約一覧</title>
+   <title>オープンスペース予約一覧</title>
 
    {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -35,7 +35,7 @@
    </header>
 
    <main>
-       <h1>会議室予約一覧</h1>
+       <h1>オープンスペース予約一覧</h1>
 
         @if (session('flash_message'))
             <p>{{ session('flash_message') }}</p>
@@ -45,41 +45,35 @@
             <p>{{ session('error_message') }}</p>
         @endif
 
-       @if($schedules->isNotEmpty())
+       @if($bookings->isNotEmpty())
                <table>
                 <tr>
-                    <th>ID</th>
-                    <th>タイトル</th>
-                    <th>会議室</th>
-                    <th>日</th>
-                    <th>開始</th>
-                    <th>終了</th>
+                    <th>予約番号</th>
+                    <th>開始日</th>
+                    <th>開始時間</th>
+                    <th>終了日</th>
+                    <th>終了時間</th>
                     <th>利用者ID</th>
                     <th>変更</th>
                     <th>キャンセル</th>
                 </tr>
-                @foreach($schedules as $schedule)
+                @foreach($bookings as $booking)
                 <tr>
-                   <td>{{ $schedule->id }}</td>
-                   <td>{{ $schedule->title }}</td>
-                   <td>{{ $schedule->room_name }}</td>
-                   <td>{{ $schedule->day }}</td>
-                   <td>{{ $schedule->start }}</td>
-                   <td>{{ $schedule->end }}</td>
-                   <td>{{ $schedule->user_id }}</td>
+                   <td>{{ $booking->id }}</td>
+                   <td>{{ $booking->state_date }}</td>
+                   <td>{{ $booking->start_time }}</td>
+                   <td>{{ $booking->end_date }}</td>
+                   <td>{{ $booking->end_time }}</td>
+                   <td>{{ $booking->user_id }}</td>
                    <td>
-                    @if($schedule->user_id == Auth::id())
-                        <a href="{{ route('schedules.edit', $schedule->id) }}">変更</a>
-                    @endif
+                        <a href="{{ route('bookings.edit', $booking->id) }}">変更</a>
                    </td>
                    <td>
-                    @if($schedule->user_id == Auth::id())
-                     <form action="{{ route('schedules.cancel', $schedule)}}" method="POST" onsubmit="return confirm('本当にキャンセルしてよろしいですか？');">
+                     <form action="{{ route('bookings.cancel', $booking)}}" method="POST" onsubmit="return confirm('本当にキャンセルしてよろしいですか？');">
                         @csrf
                         @method('DELETE')
                         <button type="submit">キャンセル</button>
                      </form>
-                     @endif
                     </td>
                 </tr>
                 @endforeach
@@ -88,7 +82,7 @@
            <p>予約はありません。</p>
        @endif
 
-       <a href='/laravel-booking-app/public/schedules/create'>会議室を予約する</a>
+       <a href='/laravel-booking-app/public/bookings/create'>オープンスペースを予約する</a>
        <a href='/laravel-booking-app/public/mypage'>マイページに戻る</a>
    </main>
 
