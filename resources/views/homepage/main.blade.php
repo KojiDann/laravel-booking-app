@@ -149,8 +149,35 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="booking-tab-pane" role="tabpanel" aria-labelledby="booking-tab" tabindex="0">
-                予約の説明
-            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>会議室（4～6人用）</h3>
+                    </div>
+                    <div class="col-md-8">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <P>料金：1時間400円</P>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href='/laravel-booking-app/public/schedules/create' class="btn btn-outline-success">
+                                        予約する
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>１DAY利用：2,000円</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href='/laravel-booking-app/public/schedules/create' class="btn btn-outline-success">
+                                            購入する
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="tab-pane fade" id="access-tab-pane" role="tabpanel" aria-labelledby="access-tab" tabindex="0">
                 アクセスの説明
             </div>

@@ -27,12 +27,12 @@ Route::get('/mypage', function () {
     return view('mypage');
 })->middleware(['auth', 'verified'])->name('mypage');
 
-Route::get('/homepage', function (BookingUsageService $service) {
+Route::get('/homepage/main', function (BookingUsageService $service) {
     $overview = File::get(resource_path('content/overview.txt'));
 
     $usage = $service->currentUsage(3);
 
-    return view('homepage', [
+    return view('homepage.main', [
         'overview' => $overview,
         'currentCount' => $usage['currentCount'],
         'capacity' => $usage['capacity'],
