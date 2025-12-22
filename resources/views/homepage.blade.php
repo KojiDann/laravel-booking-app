@@ -115,8 +115,17 @@
                     </div>
                     <div class="col-md-8">
                         <div>
+                            <div>
+                                @if ($isFull)
+                                    <h6 class="currentSituation">現在、満席です</h6>
+                                @else
+                                    <h6 class="currentSituation">◎ 現在、利用できます</h6>
+                                @endif
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
+                                    <h5>オープンスペース</h5>
                                     <P>料金：1時間400円</P>
                                 </div>
                                 <div class="col-md-6">

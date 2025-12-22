@@ -62,4 +62,10 @@ body {
     color: green;
 }
 
+.currentSituation {
+    color: green;
+    background-color: rgb(245, 248, 244);
+    padding: 10px;
+    font-weight: bold;
 
+}

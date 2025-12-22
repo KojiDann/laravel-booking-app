@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\BookingController;
+use App\Services\BookingUsageService;
 use Illuminate\Support\Facades\File;
 
 /*
@@ -26,9 +27,17 @@ Route::get('/mypage', function () {
     return view('mypage');
 })->middleware(['auth', 'verified'])->name('mypage');
 
-Route::get('/homepage', function () {
+Route::get('/homepage', function (BookingUsageService $service) {
     $overview = File::get(resource_path('content/overview.txt'));
-    return view('homepage', compact('overview'));
+
+    $usage = $service->currentUsage(3);
+
+    return view('homepage', [
+        'overview' => $overview,
+        'currentCount' => $usage['currentCount'],
+        'capacity' => $usage['capacity'],
+        'isFull' => $usage['isFull'],
+    ]);
 })->name('homepage');
 
 
