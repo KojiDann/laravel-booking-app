@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
+use App\Http\Requests\OnedayScheduleRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,19 @@ class ScheduleController extends Controller
         $schedule->day = $request->input('day');
         $schedule->start = $request->input('start');
         $schedule->end = $request->input('end');
+        $schedule->room_name = $request->input('room_name');
+        $schedule->save();
+
+        return redirect()->route('schedules.index')->with('flash_message', '予約が完了しました');
+    }
+
+    public function onedayStore(OnedayScheduleRequest $request){
+        $schedule = new Schedule();
+        $schedule->user_id = Auth::id();
+        $schedule->title = $request->input('title');
+        $schedule->day = $request->input('day');
+        $schedule->start = '00:00:00';
+        $schedule->end = '23:59:59';
         $schedule->room_name = $request->input('room_name');
         $schedule->save();
 

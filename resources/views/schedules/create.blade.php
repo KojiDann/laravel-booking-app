@@ -33,7 +33,7 @@
    </header>
 
    <main>
-        <h1>予約</h1>
+        <h1>会議室予約（時間利用）</h1>
         <form action="{{ route('schedules.store') }}" method="POST">
             @csrf
             <diV>
@@ -60,6 +60,31 @@
             <div>
                 <label for="start">終了時間</label>
                 <input type="time" name="end">
+            </div>
+            <div>
+                <button type="submit">予約する</button>
+            </diV>
+        </form>
+
+        <h1>会議室予約（終日利用）</h1>
+        <form action="{{ route('schedules.onedayStore') }}" method="POST">
+            @csrf
+            <diV>
+                <label for="title">タイトル</label>
+                <input type="text" id="title" name="title">
+            </diV>
+            <div>
+                <label for="room_name">会議室選択</label>
+                <select name="room_name">
+                    <option>会議室A</option>
+                    <option>会議室B</option>
+                    <option>会議室C</option>
+                    <option>会議室D</option>
+                </select>
+            </div>
+            <div>
+                <label for="day">日付</label>
+                <input type="date" value="2026-01-01" name="day">
             </div>
             <div>
                 <button type="submit">予約する</button>

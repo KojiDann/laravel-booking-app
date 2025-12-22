@@ -50,7 +50,8 @@ require __DIR__.'/auth.php';
 
 Route::get('/schedules', [ScheduleController::class, 'index'])->middleware(['auth', 'verified'])->name('schedules.index');
 Route::get('/schedules/create', [ScheduleController::class, 'create'])->middleware(['auth', 'verified'])->name('schedules.create');
-Route::post('/schedules/create', [ScheduleController::class, 'store'])->middleware(['auth', 'verified'])->name('schedules.store');
+Route::post('/schedules', [ScheduleController::class, 'store'])->middleware(['auth', 'verified'])->name('schedules.store');
+Route::post('/schedules/oneday', [ScheduleController::class, 'onedayStore'])->middleware(['auth', 'verified'])->name('schedules.onedayStore');
 Route::get('/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'verified'])->name('schedules.edit');
 Route::patch('/schedules/{schedule}', [ScheduleController::class, 'update'])->middleware(['auth', 'verified'])->name('schedules.update');
 Route::delete('/schedules/{schedule}', [ScheduleController::class, 'cancel'])->middleware(['auth', 'verified'])->name('schedules.cancel');
